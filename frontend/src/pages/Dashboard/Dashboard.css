@@ -1,0 +1,105 @@
+/* Whole dashboard page background */
+.main_dashboard {
+  min-height: 100vh; /* full screen height */
+  background: linear-gradient(100deg, #bcd5f5, #5980b4c9); /* soft gradient */
+  padding: 15px;
+  font-family: Arial, sans-serif;
+}
+
+/* Title styling */
+.title {
+  text-align: center; /* center text */
+  font-size: 32px;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 15px;
+}
+
+/* Main layout container (profile + info side by side) */
+.dashboard_container {
+  display: flex; /* side by side layout */
+  gap: 20px; /* space between cards */
+  justify-content: center;
+  flex-wrap: wrap; /* responsive for small screens */
+}
+
+/* ================= PROFILE CARD ================= */
+.profile_card {
+  width: 280px;
+  background: #cdd8e68f;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile image box */
+.profile_image_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Profile image styling */
+.profile_img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; /* circle shape */
+  object-fit: cover;
+  border: 3px solid #3b82f6;
+  margin-bottom: 10px;
+}
+
+/* Upload button */
+.upload_btn {
+  background: #3b82f6;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: 0.3s;
+}
+
+/* Hover effect */
+.upload_btn:hover {
+  background: #2563eb;
+}
+
+/* Profile name */
+.profile_card h2 {
+  margin: 10px 0 5px;
+  font-size: 20px;
+  color: #111827;
+}
+
+/* Profile email */
+.profile_card p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ================= INFO CARD ================= */
+.info_card {
+  flex: 1;
+  min-width: 300px;
+  background: #cdd8e68f;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Each info row */
+.info_card p {
+  font-size: 15px;
+  margin: 12px 0;
+  color: #1d2636be;
+  font-weight: bold;
+}
+
+/* Labels (Full Name, Email etc.) */
+.info_card span {
+  font-weight: bold;
+  color: #0a3bc0be;
+}

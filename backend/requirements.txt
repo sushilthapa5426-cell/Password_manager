@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+sqlalchemy
+pymysql
+passlib[bcrypt]
+python-jose
+pydantic-settings
+python-dotenv
+
+
+fastapi: creates APIs, handles routs(/login, /register, validates data)
+uvicorn: ASGI server that helps to runs your FastAPI App and handles requests 
+sqlalchemy is (ORM) object relation mapper which connects python with MySQL, lets you write python instead of sql
+pymysql is MySQL driver that actually talks to MySQL database 
+posslib[bcrypt] password hashing that encrypts and verifies password 
+python-jose is JWT(authentication) creates login tokens and verifies tokens 
+python-dotnev helps to load .env into environment

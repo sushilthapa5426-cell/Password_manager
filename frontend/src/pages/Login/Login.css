@@ -1,0 +1,91 @@
+/* 👇 full page center */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #1f293a;
+  padding: 20px;
+}
+
+/* 👇 form box */
+.login-form {
+  width: 100%;
+  max-width: 350px;
+  background: #111827;
+  padding: 25px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* 👇 title */
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #0ef;
+}
+
+/* 👇 input wrapper */
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #2c4766;
+  border-radius: 5px;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+/* 👇 icon */
+.icon {
+  margin-right: 8px;
+}
+
+/* 👇 input */
+.input-group input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+}
+
+/* 👇 error text */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+/* 👇 button */
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #24f7ec;
+  border: 3px solid #b9b3f1;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 👇 links */
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.links a {
+  color: #0ef;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+button:hover {
+  background: #2a0f18 !important;
+  color: #f87171 !important;
+  border: 2px solid #7a2808;
+}

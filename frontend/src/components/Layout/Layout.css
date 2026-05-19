@@ -1,0 +1,13 @@
+/* Layout.css */
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: #7c68c7c0;
+}
+
+/* Right side takes remaining space */
+.layout-main {
+  flex: 1;
+  overflow-y: auto;
+}

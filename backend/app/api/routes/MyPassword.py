@@ -3,10 +3,10 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.db.models import UserInformation
-from app.core.security import decode_access_token, decrypt_password  #to read userid from token and decrypt the passwords
+from app.db.models import UserInformation,UserHistory
+from app.core.security import decode_access_token, decrypt_password, encrypt_password  #to read userid from token and decrypt the passwords
 from app.schemas.user import UpdatePasswordSchema # to validate the data coming from React form of EditPassword
-
+import uuid as uuid_lib  #  generates unique id for history record
 
 
 router = APIRouter(
@@ -67,11 +67,15 @@ def get_my_password(
     # 👇 decrypt each password before sending to frontend
     result = []
     for p in passwords:
+        try:
+            decrypted = decrypt_password(p.registered_password)
+        except Exception:
+            decrypted = "cannot decrypt"
         result.append({
             "uuid": p.uuid,
             "application_name": p.application_name,
             "registered_email": p.registered_email,
-            "registered_password": decrypt_password(p.registered_password),
+            "registered_password": decrypted,
             # 👆 "gAAAAABh..." → "Pass@1234"
         })
     # now fetch only current page items
@@ -122,16 +126,53 @@ def update_password(
         .filter(UserInformation.uuid == uuid, # it will check if the uuid belongs to the logged in user or not
             UserInformation.userid == user_id # it will check if the user_id belongs to the logged in user or not
             ).first()
-    #step2- if password not found or does not belong to user, raise error
-    if not password:
-        raise HTTPException(status_code=404, detail="Password not found or access denied")
-    
-    #step3- update the password fields where password.field store the changed value 
-    password.application_name = data.application_name #it brings the new application name from request body and updates the existing one
-    password.registered_email = data.registered_email #it brings the new registered email from request body and updates the existing one
-    password.registered_password = data.registered_password #it brings the new registered password from request body and updates the existing one  
+   # Step 2 — save OLD data to user_history BEFORE updating
+    # this is the key step — copy current data to history first
+    history = UserHistory(
+        history_uuid=str(uuid_lib.uuid4()),
+        # 👆 fresh unique id for this history record
+        # every update creates a new history record
 
-    db.commit() #saves the changes to database
+        ref_uuid=password.uuid,
+        # 👆 points to user_information.uuid
+        # links history to original entry
+        # e.g "abc-123" = Netflix entry was updated
+
+        application_name=password.application_name,
+        # 👆 OLD name — saved BEFORE we change it
+        # e.g "Netflix"
+
+        registered_email=password.registered_email,
+        # 👆 OLD email — saved BEFORE we change it
+
+        registered_password=password.registered_password,
+        # 👆 OLD encrypted password — saved BEFORE we change it
+        # still encrypted — decrypted when fetching history
+
+        userid=user_id,
+        # 👆 which user owns this history record
+    )
+    db.add(history)
+    # 👆 prepares INSERT into user_history table
+    # not saved yet — saved together with update below
+
+    # Step 3 — now update user_information with NEW data
+    password.application_name = data.application_name
+    # 👆 "Netflix" → "Netflix Premium"
+
+    password.registered_email = data.registered_email
+    # 👆 new email from edit form
+
+    password.registered_password = encrypt_password(data.registered_password)
+    # 👆 encrypt new password before saving
+    # "NewPass@1234" → "gAAAAABh..."
+    # NEVER store plain text
+
+    # Step 4 — save BOTH at same time
+    db.commit()
+    # 👆 one commit does two things:
+    # 1. INSERT old data into user_history
+    # 2. UPDATE user_information with new data
 
     return{"message": "Password updated successfully"}
 

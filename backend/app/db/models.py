@@ -47,3 +47,19 @@ class UserInformation(Base):
     userid = Column (Integer, ForeignKey("users.id"), nullable= False)
 
 
+class UserHistory(Base):
+    __tablename__ = "user_history"
+
+    history_uuid = Column(String(36), primary_key=True)
+    #own unique id-generated fresh for each history recored
+
+    ref_uuid = Column(String(36), nullable=False)
+    #links to user_information.uuid to know which user information this history record belongs to
+    #tells us which entry was updated
+
+    application_name = Column(String(255), nullable=False)
+    registered_email = Column(String(255), nullable=False)
+    registered_password = Column(String(255), nullable=False)
+    userid = Column(Integer, ForeignKey("users.id"), nullable=False)
+    #forigen key -links to users.id to know which user owns this
+    updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())

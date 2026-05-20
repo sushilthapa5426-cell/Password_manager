@@ -10,7 +10,7 @@ import axios from "axios";
 const api = axios.create({
   baseURL: "http://localhost:8000/api", // 👈 all requests go to backend /api of FastAPI
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json", // this tells the backend that we are sending JSON data in the request body or in format
   },
 });
 
@@ -23,7 +23,7 @@ const api = axios.create({
  */
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); //check if token exists in localStorage
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

@@ -7,6 +7,7 @@ from app.db.database import Base, engine
 from app.api.routes.auth import router as auth_router
 from app.api.routes.AddPasswordAuth import router as Addpassword
 from app.api.routes.MyPassword import router as mypassword_router
+from app.api.routes.PasswordHistory import router as history_router
 
 # 👇 create tables automatically
 Base.metadata.create_all(bind=engine)
@@ -34,7 +35,7 @@ app.include_router(auth_router)
 app.include_router(Addpassword)
 app.include_router(dashboard_router)
 app.include_router(mypassword_router)
-
+app.include_router(history_router)
 # ================= TEST ROUTE =================
 @app.get("/")
 def home():

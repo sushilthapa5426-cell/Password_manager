@@ -205,7 +205,7 @@ const MyPassword = () => {
           {/* Prev button — only show if not on first page */}
           {currentPage > 1 && (
             <button
-              className="page-btn-prev"
+              className="page-btn page_btn-prev"
               onClick={() => handleLoadMore(currentPage - 1)}
             >
               ← Prev
